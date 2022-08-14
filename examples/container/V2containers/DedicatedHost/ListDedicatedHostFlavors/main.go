@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 
@@ -13,36 +14,32 @@ import (
 
 func main() {
 
+	var Zone string
+	flag.StringVar(&Zone, "zone", "", "Zone")
+	flag.Parse()
+	fmt.Println("[FLAG]Zone: ", Zone)
 	c := new(bluemix.Config)
 
 	trace.Logger = trace.NewLogger("true")
 
-	var poolinfo = v2.WorkerPoolRequest{
-		Cluster:     "bm64u3ed02o93vv36hb0",
-		Flavor:      "c2.2x4",
-		Name:        "mywork21",
-		VpcID:       "6015365a-9d93-4bb4-8248-79ae0db2dc26",
-		WorkerCount: 1,
-		Zones:       []v2.Zone{},
-	}
 	sess, err := session.New(c)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	target := v2.ClusterTargetHeader{}
 
-	clusterClient, err := v2.New(sess)
+	v2Client, err := v2.New(sess)
 	if err != nil {
 		log.Fatal(err)
 	}
-	workerpoolAPI := clusterClient.WorkerPools()
+	dedicatedHostFlavorAPI := v2Client.DedicatedHostFlavor()
 
-	out, err := workerpoolAPI.CreateWorkerPool(poolinfo, target)
+	dhf, err := dedicatedHostFlavorAPI.ListDedicatedHostFlavors(Zone, target)
+	if err != nil {
+		fmt.Printf("ListDedicatedHostFlavors was not successful: %v \n", err)
+		return
+	}
+	fmt.Printf("ListDedicatedHostFlavors was successful: %v \n", dhf)
 
-	fmt.Println("out=", out)
 }
