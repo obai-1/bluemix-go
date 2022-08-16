@@ -61,11 +61,11 @@ var regionToEndpoint = map[string]map[string]string{
 		"jp-osa":   "jp2.icr.io",
 	},
 	"uaa": {
-		"us-south": "https://iam.cloud.ibm.com/cloudfoundry/login/us-south",
-		"us-east":  "https://iam.cloud.ibm.com/cloudfoundry/login/us-east",
-		"eu-gb":    "https://iam.cloud.ibm.com/cloudfoundry/login/uk-south",
-		"au-syd":   "https://iam.cloud.ibm.com/cloudfoundry/login/ap-south",
-		"eu-de":    "https://iam.cloud.ibm.com/cloudfoundry/login/eu-central",
+		"us-south": "https://iam.test.cloud.ibm.com/cloudfoundry/login/us-south",
+		"us-east":  "https://iam.test.cloud.ibm.com/cloudfoundry/login/us-east",
+		"eu-gb":    "https://iam.test.cloud.ibm.com/cloudfoundry/login/uk-south",
+		"au-syd":   "https://iam.test.cloud.ibm.com/cloudfoundry/login/ap-south",
+		"eu-de":    "https://iam.test.cloud.ibm.com/cloudfoundry/login/eu-central",
 	},
 }
 var privateRegions = map[string][]string{
@@ -335,7 +335,7 @@ func (e *endpointLocator) GlobalTaggingEndpoint() (string, error) {
 		}
 		return contructEndpoint(fmt.Sprintf("tags.private.%s.global-search-tagging", r), cloudEndpoint), nil
 	}
-	return contructEndpoint("tags.global-search-tagging", cloudEndpoint), nil
+	return contructEndpoint("tags.global-search-tagging.test", cloudEndpoint), nil
 }
 
 func (e *endpointLocator) IAMEndpoint() (string, error) {
@@ -357,7 +357,7 @@ func (e *endpointLocator) IAMEndpoint() (string, error) {
 		}
 		return contructEndpoint(fmt.Sprintf("private.%s.iam", r), cloudEndpoint), nil
 	}
-	return contructEndpoint("iam", cloudEndpoint), nil
+	return contructEndpoint("iam.test", cloudEndpoint), nil
 }
 
 func (e *endpointLocator) IAMPAPEndpoint() (string, error) {
@@ -379,7 +379,7 @@ func (e *endpointLocator) IAMPAPEndpoint() (string, error) {
 		}
 		return contructEndpoint(fmt.Sprintf("private.%s.iam", r), cloudEndpoint), nil
 	}
-	return contructEndpoint("iam", cloudEndpoint), nil
+	return contructEndpoint("iam.test", cloudEndpoint), nil
 }
 
 func (e *endpointLocator) ICDEndpoint() (string, error) {
@@ -400,11 +400,11 @@ func (e *endpointLocator) ICDEndpoint() (string, error) {
 	if e.visibility == "public-and-private" {
 		r, err := validateRegion(e.region, privateRegions["icd"])
 		if err != nil {
-			return contructEndpoint(fmt.Sprintf("api.%s.databases", e.region), cloudEndpoint), nil
+			return contructEndpoint(fmt.Sprintf("api.test.%s.databases", e.region), cloudEndpoint), nil
 		}
 		return contructEndpoint(fmt.Sprintf("api.%s.private.databases", r), cloudEndpoint), nil
 	}
-	return contructEndpoint(fmt.Sprintf("api.%s.databases", e.region), cloudEndpoint), nil
+	return contructEndpoint(fmt.Sprintf("api.test.%s.databases", e.region), cloudEndpoint), nil
 }
 
 func (e *endpointLocator) MCCPAPIEndpoint() (string, error) {
@@ -446,11 +446,11 @@ func (e *endpointLocator) ResourceManagementEndpoint() (string, error) {
 	if e.visibility == "public-and-private" {
 		r, err := validateRegion(e.region, privateRegions["resource"])
 		if err != nil {
-			return contructEndpoint("resource-controller", cloudEndpoint), nil
+			return contructEndpoint("resource-controller.test", cloudEndpoint), nil
 		}
 		return contructEndpoint(fmt.Sprintf("private.%s.resource-controller", r), cloudEndpoint), nil
 	}
-	return contructEndpoint("resource-controller", cloudEndpoint), nil
+	return contructEndpoint("resource-controller.test", cloudEndpoint), nil
 }
 
 func (e *endpointLocator) ResourceControllerEndpoint() (string, error) {
@@ -475,11 +475,11 @@ func (e *endpointLocator) ResourceControllerEndpoint() (string, error) {
 	if e.visibility == "public-and-private" {
 		r, err := validateRegion(e.region, privateRegions["resource"])
 		if err != nil {
-			return contructEndpoint("resource-controller", cloudEndpoint), nil
+			return contructEndpoint("resource-controller.test", cloudEndpoint), nil
 		}
 		return contructEndpoint(fmt.Sprintf("private.%s.resource-controller", r), cloudEndpoint), nil
 	}
-	return contructEndpoint("resource-controller", cloudEndpoint), nil
+	return contructEndpoint("resource-controller.test", cloudEndpoint), nil
 }
 
 func (e *endpointLocator) ResourceCatalogEndpoint() (string, error) {
@@ -500,7 +500,7 @@ func (e *endpointLocator) ResourceCatalogEndpoint() (string, error) {
 		}
 		return contructEndpoint(fmt.Sprintf("private.%s.globalcatalog", r), cloudEndpoint), nil
 	}
-	return contructEndpoint("globalcatalog", cloudEndpoint), nil
+	return contructEndpoint("globalcatalog.test", cloudEndpoint), nil
 }
 
 func (e *endpointLocator) UAAEndpoint() (string, error) {
